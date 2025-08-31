@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = "https://shiftalytixbackend.onrender.com/api/wbs";
+const API_BASE = "http://localhost:8080/api/wbs";
 
 export const analyzeFile = async (file) => {
   const formData = new FormData();
