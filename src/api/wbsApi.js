@@ -15,5 +15,6 @@ export const analyzeFile = async (file) => {
 
 export const analyzeText = async (text) => {
   const response = await axios.post(`${API_BASE}/analyze/text`, { wbsText: text });
+  console.log("API Response:", response.data);
   return response.data;
 };
