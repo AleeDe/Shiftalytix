@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Upload, FileText, Loader2 } from "lucide-react"; // icons
+import { Upload, FileText } from "lucide-react"; 
 import { analyzeFile } from "../api/wbsApi";
 
-export default function FileUpload({ setReport }) {
+export default function FileUpload({ setReport, setLoading }) {
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -18,16 +17,21 @@ export default function FileUpload({ setReport }) {
       setFile(selectedFile);
     } else {
       alert("Only PDF or DOC/DOCX files are allowed.");
-      e.target.value = ""; // reset input
+      e.target.value = "";
     }
   };
 
   const submitFile = async () => {
     if (!file) return alert("Please select a valid file!");
-    setLoading(true);
-    const data = await analyzeFile(file);
-    setReport(data);
-    setLoading(false);
+    setLoading(true); // show loader
+    try {
+      const data = await analyzeFile(file);
+      setReport(data);
+    } catch (err) {
+      alert("Error analyzing file. Please try again.");
+    } finally {
+      setLoading(false); // hide loader
+    }
   };
 
   return (
@@ -49,10 +53,9 @@ export default function FileUpload({ setReport }) {
 
       {/* Disclaimer */}
       <p className="text-sm text-gray-600 mb-4 text-center">
-        ⚡ <strong>Note:</strong> The better and more detailed your <span className="text-blue-600 font-semibold">Project WBS</span>,
-        the more accurate the results will be. However, please note that the output is <span className="text-red-500">not guaranteed to be 100% accurate</span> — we recommend verifying the results on your own as well. ✅
+        ⚡ <strong>Note:</strong> The better and more detailed your <span className="text-blue-600 font-semibold">Project WBS</span>, 
+        the more accurate the results will be. However, the output is <span className="text-red-500">not guaranteed to be 100% accurate</span> — please verify results yourself. ✅
       </p>
-
 
       {/* File Upload Section */}
       <div className="flex flex-col items-center space-y-6">
@@ -74,18 +77,9 @@ export default function FileUpload({ setReport }) {
           whileTap={{ scale: 0.9 }}
           whileHover={{ scale: 1.05 }}
           onClick={submitFile}
-          disabled={loading}
-          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-md hover:shadow-xl transition disabled:opacity-60"
+          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-md hover:shadow-xl transition"
         >
-          {loading ? (
-            <>
-              <Loader2 className="animate-spin w-5 h-5" /> Processing...
-            </>
-          ) : (
-            <>
-              <FileText className="w-5 h-5" /> Analyze File
-            </>
-          )}
+          <FileText className="w-5 h-5" /> Analyze File
         </motion.button>
       </div>
     </motion.div>
