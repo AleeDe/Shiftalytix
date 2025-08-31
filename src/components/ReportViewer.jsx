@@ -1,7 +1,7 @@
 import React from "react";
 
-export default function ReportViewer({ data }) {
-  if (!data) return null;
+export default function ReportViewer({ report }) {
+  if (!report) return null;
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow-lg max-w-4xl mx-auto mt-6">
@@ -10,7 +10,7 @@ export default function ReportViewer({ data }) {
       </h2>
 
       <pre className="bg-gray-50 p-4 rounded-lg text-sm text-gray-800 overflow-x-auto">
-        {JSON.stringify(data, null, 2)}
+        {JSON.stringify(report, null, 2)}
       </pre>
     </div>
   );
