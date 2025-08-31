@@ -2,7 +2,11 @@ import FunctionTable from "./FunctionTable";
 import { motion } from "framer-motion";
 
 export default function ReportViewer({ report }) {
-  if (!report) return null;
+  if (!report) return (
+    <div className="p-6">
+      <h1 className="text-center text-4xl font-bold text-gray-900 mb-6">Report Viewer</h1>
+      <p>No Report for now ....... upload WBS or text so i can make report</p> </div>
+  );
 
   return (
     <motion.div

@@ -6,7 +6,7 @@ export default function Home() {
   const [report, setReport] = useState(null);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className=" p-6  min-h-screen">
       <FileUpload setReport={setReport} />
       <ReportViewer report={report} />
     </div>
